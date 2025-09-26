@@ -69,30 +69,30 @@ A comprehensive enterprise-grade email security system that uses artificial inte
 ### 1. Install Python 3.9+
 
 **Ubuntu/Debian:**
-\`\`\`bash
+```bash
 sudo apt update
 sudo apt install python3.9 python3.9-pip python3.9-venv python3.9-dev
-\`\`\`
+```
 
 **macOS:**
-\`\`\`bash
+```bash
 # Install Homebrew if not already installed
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Install Python
 brew install python@3.9
-\`\`\`
+```
 
 **Windows (WSL2):**
-\`\`\`bash
+```bash
 sudo apt update
 sudo apt install python3.9 python3.9-pip python3.9-venv python3.9-dev
-\`\`\`
+```
 
 ### 2. Install Docker and Docker Compose
 
 **Ubuntu/Debian:**
-\`\`\`bash
+```bash
 # Install Docker
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
@@ -103,14 +103,14 @@ sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker
 sudo chmod +x /usr/local/bin/docker-compose
 
 # Logout and login again for group changes to take effect
-\`\`\`
+```
 
 **macOS:**
-\`\`\`bash
+```bash
 # Install Docker Desktop from https://www.docker.com/products/docker-desktop
 # Or using Homebrew
 brew install --cask docker
-\`\`\`
+```
 
 **Windows:**
 Install Docker Desktop for Windows from https://www.docker.com/products/docker-desktop
@@ -118,7 +118,7 @@ Install Docker Desktop for Windows from https://www.docker.com/products/docker-d
 ### 3. Install System Dependencies for Advanced Features
 
 **Ubuntu/Debian:**
-\`\`\`bash
+```bash
 # Core dependencies
 sudo apt install build-essential libpq-dev libssl-dev libffi-dev
 
@@ -133,17 +133,17 @@ sudo apt install libicu-dev
 
 # QR code dependencies
 sudo apt install libzbar0 libzbar-dev
-\`\`\`
+```
 
 **macOS:**
-\`\`\`bash
+```bash
 brew install postgresql openssl libffi opencv tesseract ffmpeg icu4c zbar
-\`\`\`
+```
 
 ### 4. Install CUDA (Optional, for GPU acceleration)
 
 **Ubuntu/Debian:**
-\`\`\`bash
+```bash
 # Install NVIDIA drivers
 sudo apt install nvidia-driver-470
 
@@ -158,18 +158,18 @@ sudo apt-get -y install cuda
 
 # Reboot system
 sudo reboot
-\`\`\`
+```
 
 ## 📥 Installation Guide
 
 ### Step 1: Clone the Repository
-\`\`\`bash
+```bash
 git clone <repository-url>
 cd ai-phishing-detector
-\`\`\`
+```
 
 ### Step 2: Create Python Virtual Environment
-\`\`\`bash
+```bash
 # Create virtual environment
 python3.9 -m venv venv
 
@@ -179,10 +179,10 @@ source venv/bin/activate
 
 # Windows (WSL2):
 source venv/bin/activate
-\`\`\`
+```
 
 ### Step 3: Install Python Dependencies
-\`\`\`bash
+```bash
 # Upgrade pip
 pip install --upgrade pip
 
@@ -204,10 +204,10 @@ python -m spacy download en_core_web_sm
 python -m spacy download es_core_news_sm
 python -m spacy download fr_core_news_sm
 python -m spacy download de_core_news_sm
-\`\`\`
+```
 
 ### Step 4: Verify Installation
-\`\`\`bash
+```bash
 # Check Python version
 python --version  # Should show Python 3.9+
 
@@ -220,7 +220,7 @@ pip list
 # Verify Docker installation
 docker --version
 docker-compose --version
-\`\`\`
+```
 
 ## 🔐 Microsoft Graph API Setup
 
@@ -269,16 +269,16 @@ Copy these values from your Azure AD app:
 ## ⚙️ Configuration
 
 ### Step 1: Create Environment File
-\`\`\`bash
+```bash
 # Copy the example environment file
 cp .env.example .env
-\`\`\`
+```
 
 ### Step 2: Configure Environment Variables
 
 Edit the `.env` file with your specific values:
 
-\`\`\`bash
+```bash
 # Database Configuration
 DATABASE_URL=postgresql://phishing_user:secure_password@localhost:5432/phishing_detection
 REDIS_URL=redis://localhost:6379/0
@@ -340,21 +340,21 @@ ENABLE_AUDIT_LOGGING=true
 ENABLE_ENCRYPTION_AT_REST=true
 ENABLE_RATE_LIMITING=true
 MAX_REQUESTS_PER_MINUTE=1000
-\`\`\`
+```
 
 ### Step 3: Generate Secret Keys
-\`\`\`bash
+```bash
 # Generate secure secret keys
 python -c "import secrets; print('SECRET_KEY=' + secrets.token_urlsafe(32))"
 python -c "import secrets; print('JWT_SECRET_KEY=' + secrets.token_urlsafe(32))"
 python -c "import secrets; print('WEBHOOK_SECRET=' + secrets.token_urlsafe(32))"
-\`\`\`
+```
 
 ## 🗄️ Database Setup
 
 ### Option 1: Using Docker (Recommended)
 
-\`\`\`bash
+```bash
 # Start PostgreSQL and Redis using Docker Compose
 docker-compose up -d postgres redis
 
@@ -363,12 +363,12 @@ sleep 30
 
 # Verify services are running
 docker-compose ps
-\`\`\`
+```
 
 ### Option 2: Local Installation
 
 **Install PostgreSQL:**
-\`\`\`bash
+```bash
 # Ubuntu/Debian
 sudo apt install postgresql postgresql-contrib
 
@@ -378,18 +378,18 @@ brew services start postgresql
 
 # Create database and user
 sudo -u postgres psql
-\`\`\`
+```
 
-\`\`\`sql
+```sql
 -- In PostgreSQL shell
 CREATE DATABASE phishing_detection;
 CREATE USER phishing_user WITH PASSWORD 'secure_password';
 GRANT ALL PRIVILEGES ON DATABASE phishing_detection TO phishing_user;
 \q
-\`\`\`
+```
 
 **Install Redis:**
-\`\`\`bash
+```bash
 # Ubuntu/Debian
 sudo apt install redis-server
 sudo systemctl start redis-server
@@ -397,21 +397,21 @@ sudo systemctl start redis-server
 # macOS
 brew install redis
 brew services start redis
-\`\`\`
+```
 
 ### Step 3: Initialize Database Schema
 
-\`\`\`bash
+```bash
 # Run database initialization script
 python scripts/init_db.sql
 
 # Or manually run SQL commands
 psql -h localhost -U phishing_user -d phishing_detection -f scripts/init_db.sql
-\`\`\`
+```
 
 ### Step 4: Verify Database Connection
 
-\`\`\`bash
+```bash
 # Test database connection
 python -c "
 from src.utils.database import get_db_connection
@@ -422,13 +422,13 @@ try:
 except Exception as e:
     print(f'❌ Database connection failed: {e}')
 "
-\`\`\`
+```
 
 ## 🚀 Advanced Features Setup
 
 ### Step 1: Download Pre-trained Models
 
-\`\`\`bash
+```bash
 # Download transformer models
 python -c "
 from transformers import AutoTokenizer, AutoModel
@@ -439,22 +439,22 @@ for model in models:
     AutoModel.from_pretrained(model)
 print('✅ All models downloaded')
 "
-\`\`\`
+```
 
 ### Step 2: Initialize Threat Intelligence Feeds
 
-\`\`\`bash
+```bash
 # Initialize threat intelligence databases
 python -c "
 from src.integrations.threat_intelligence import ThreatIntelligenceIntegrator
 integrator = ThreatIntelligenceIntegrator()
 print('✅ Threat intelligence integrator initialized')
 "
-\`\`\`
+```
 
 ### Step 3: Set Up Computer Vision Models
 
-\`\`\`bash
+```bash
 # Download YARA rules for malware detection
 mkdir -p data/yara_rules
 wget -O data/yara_rules/malware.yar https://github.com/Yara-Rules/rules/archive/master.zip
@@ -469,11 +469,11 @@ print(f'OpenCV version: {cv2.__version__}')
 print(f'Tesseract version: {pytesseract.get_tesseract_version()}')
 print('✅ Computer vision setup complete')
 "
-\`\`\`
+```
 
 ### Step 4: Configure Multi-Language Support
 
-\`\`\`bash
+```bash
 # Download additional language models
 python -m spacy download es_core_news_sm  # Spanish
 python -m spacy download fr_core_news_sm  # French
@@ -494,23 +494,23 @@ for lang, text in test_texts.items():
     detected = detect(text)
     print(f'{lang}: {detected} ✅' if detected == lang else f'{lang}: {detected} ❌')
 "
-\`\`\`
+```
 
 ## 🚀 Running the Application
 
 ### Step 1: Start Background Services
 
-\`\`\`bash
+```bash
 # Start all services using Docker Compose
 docker-compose up -d
 
 # Or start individual services
 docker-compose up -d postgres redis
-\`\`\`
+```
 
 ### Step 2: Start Celery Workers
 
-\`\`\`bash
+```bash
 # In a new terminal, activate virtual environment
 source venv/bin/activate
 
@@ -522,21 +522,21 @@ celery -A src.workers.celery_app beat --loglevel=info
 
 # Optional: Start Flower for monitoring
 celery -A src.workers.celery_app flower --port=5555
-\`\`\`
+```
 
 ### Step 3: Start the Web Application
 
-\`\`\`bash
+```bash
 # In a new terminal, activate virtual environment
 source venv/bin/activate
 
 # Start FastAPI application with advanced configuration
 uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --workers 4 --reload
-\`\`\`
+```
 
 ### Step 4: Verify Application is Running
 
-\`\`\`bash
+```bash
 # Check if API is responding
 curl http://localhost:8000/health
 
@@ -554,7 +554,7 @@ curl http://localhost:8000/api/features
 #   "threat_intelligence": true,
 #   "visual_analysis": true
 # }
-\`\`\`
+```
 
 ### Step 5: Access the Dashboard
 
@@ -568,18 +568,18 @@ Open your web browser and navigate to:
 
 ### Step 1: Create Test User Account
 
-\`\`\`bash
+```bash
 # Create admin user
 python -c "
 from src.security.auth import create_user
 create_user('admin@company.com', 'secure_password', 'admin')
 print('✅ Admin user created')
 "
-\`\`\`
+```
 
 ### Step 2: Test Advanced AI Models
 
-\`\`\`bash
+```bash
 # Test transformer models
 python -c "
 from src.ml.transformer_detector import TransformerPhishingDetector
@@ -594,11 +594,11 @@ async def test_transformer():
 
 asyncio.run(test_transformer())
 "
-\`\`\`
+```
 
 ### Step 3: Test Multi-Language Detection
 
-\`\`\`bash
+```bash
 # Test multi-language analysis
 python -c "
 from src.ml.advanced_content_analyzer import AdvancedContentAnalyzer
@@ -618,11 +618,11 @@ async def test_multilang():
 
 asyncio.run(test_multilang())
 "
-\`\`\`
+```
 
 ### Step 4: Test Single User Email Analysis
 
-\`\`\`bash
+```bash
 # Test with a specific user's inbox using advanced workflow
 python scripts/test_single_user.py user@company.com
 
@@ -637,11 +637,11 @@ python scripts/test_single_user.py user@company.com
 #   * Behavioral analysis
 #   * Threat intelligence correlation
 # - Generate comprehensive report
-\`\`\`
+```
 
 ### Step 5: Validate Advanced Workflow
 
-\`\`\`bash
+```bash
 # Validate that the system follows the enhanced workflow
 python scripts/workflow_validator.py
 
@@ -661,11 +661,11 @@ python scripts/workflow_validator.py
 # ✅ Automated response: OK
 # ✅ Dashboard update: OK
 # ✅ All workflow steps validated successfully
-\`\`\`
+```
 
 ### Step 6: Performance Benchmarking
 
-\`\`\`bash
+```bash
 # Run performance benchmarks
 python scripts/benchmark_performance.py
 
@@ -677,13 +677,13 @@ python scripts/benchmark_performance.py
 # - Threat intelligence: 500ms average
 # - Overall accuracy: 99.7%
 # - False positive rate: 0.4%
-\`\`\`
+```
 
 ## 🏗️ Architecture Overview
 
 ### Enhanced System Components
 
-\`\`\`
+```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Web Dashboard │    │   FastAPI App   │    │ Background      │
 │   (Frontend)    │◄──►│   (Backend)     │◄──►│ Workers         │
@@ -718,7 +718,7 @@ python scripts/benchmark_performance.py
                     │ Response        │
                     │ Orchestrator    │
                     └─────────────────┘
-\`\`\`
+```
 
 ### Enhanced Data Flow
 
@@ -754,7 +754,7 @@ python scripts/benchmark_performance.py
 
 ### Enhanced Analysis Endpoints
 
-\`\`\`bash
+```bash
 # Advanced email analysis with all features
 POST /api/analyze/advanced
 Authorization: Bearer jwt_token
@@ -801,11 +801,11 @@ Content-Type: application/json
     "incidents_created": 1
   }
 }
-\`\`\`
+```
 
 ### Threat Intelligence Endpoints
 
-\`\`\`bash
+```bash
 # Check IOC reputation
 POST /api/threat-intel/check
 Authorization: Bearer jwt_token
@@ -836,11 +836,11 @@ Content-Type: application/json
     }
   ]
 }
-\`\`\`
+```
 
 ### Multi-Language Analysis Endpoints
 
-\`\`\`bash
+```bash
 # Analyze text in multiple languages
 POST /api/analyze/multilang
 Authorization: Bearer jwt_token
@@ -864,13 +864,13 @@ Content-Type: application/json
   "overall_manipulation_score": 0.75,
   "threat_level": "HIGH"
 }
-\`\`\`
+```
 
 ## ⚡ Performance Optimization
 
 ### GPU Acceleration Setup
 
-\`\`\`bash
+```bash
 # Enable GPU acceleration in environment
 echo "ENABLE_GPU_ACCELERATION=true" >> .env
 echo "CUDA_VISIBLE_DEVICES=0" >> .env
@@ -883,11 +883,11 @@ if torch.cuda.is_available():
     print(f'GPU: {torch.cuda.get_device_name(0)}')
     print(f'Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB')
 "
-\`\`\`
+```
 
 ### Distributed Processing
 
-\`\`\`bash
+```bash
 # Configure distributed processing
 echo "DISTRIBUTED_PROCESSING=true" >> .env
 echo "MAX_CONCURRENT_ANALYSIS=100" >> .env
@@ -895,11 +895,11 @@ echo "BATCH_SIZE=50" >> .env
 
 # Start multiple worker processes
 celery -A src.workers.celery_app worker --concurrency=16 --pool=prefork
-\`\`\`
+```
 
 ### Caching Optimization
 
-\`\`\`bash
+```bash
 # Enable advanced caching
 echo "ADVANCED_CACHING=true" >> .env
 echo "CACHE_TTL_HOURS=24" >> .env
@@ -908,11 +908,11 @@ echo "MODEL_CACHE_SIZE=1000" >> .env
 # Configure Redis for optimal performance
 redis-cli CONFIG SET maxmemory 4gb
 redis-cli CONFIG SET maxmemory-policy allkeys-lru
-\`\`\`
+```
 
 ### Database Optimization
 
-\`\`\`sql
+```sql
 -- Create additional indexes for performance
 CREATE INDEX CONCURRENTLY idx_email_analysis_timestamp ON email_analysis(created_at);
 CREATE INDEX CONCURRENTLY idx_email_analysis_threat_score ON email_analysis(threat_score);
@@ -928,7 +928,7 @@ ALTER SYSTEM SET default_statistics_target = 100;
 
 -- Reload configuration
 SELECT pg_reload_conf();
-\`\`\`
+```
 
 ## 🔧 Troubleshooting
 
@@ -939,7 +939,7 @@ SELECT pg_reload_conf();
 **Error**: `OSError: Can't load tokenizer for 'microsoft/DialoGPT-medium'`
 
 **Solution**:
-\`\`\`bash
+```bash
 # Clear model cache and re-download
 rm -rf ~/.cache/huggingface/
 python -c "
@@ -948,28 +948,28 @@ AutoTokenizer.from_pretrained('microsoft/DialoGPT-medium')
 AutoModel.from_pretrained('microsoft/DialoGPT-medium')
 print('✅ Models re-downloaded')
 "
-\`\`\`
+```
 
 #### 2. GPU Memory Issues
 
 **Error**: `CUDA out of memory`
 
 **Solution**:
-\`\`\`bash
+```bash
 # Reduce batch size and enable gradient checkpointing
 echo "BATCH_SIZE=16" >> .env
 echo "GRADIENT_CHECKPOINTING=true" >> .env
 
 # Monitor GPU memory usage
 nvidia-smi -l 1
-\`\`\`
+```
 
 #### 3. Multi-Language Model Issues
 
 **Error**: `OSError: [E050] Can't find model 'es_core_news_sm'`
 
 **Solution**:
-\`\`\`bash
+```bash
 # Install missing language models
 python -m spacy download es_core_news_sm
 python -m spacy download fr_core_news_sm
@@ -986,14 +986,14 @@ for model in models:
     except OSError:
         print(f'❌ {model} not found')
 "
-\`\`\`
+```
 
 #### 4. Computer Vision Dependencies
 
 **Error**: `ImportError: No module named 'cv2'`
 
 **Solution**:
-\`\`\`bash
+```bash
 # Install OpenCV and related packages
 pip install opencv-python opencv-contrib-python
 pip install pytesseract pillow
@@ -1001,27 +1001,27 @@ pip install pyzbar
 
 # Install system dependencies
 sudo apt install tesseract-ocr libtesseract-dev libzbar0 libzbar-dev
-\`\`\`
+```
 
 #### 5. Threat Intelligence API Limits
 
 **Error**: `API rate limit exceeded`
 
 **Solution**:
-\`\`\`bash
+```bash
 # Configure rate limiting and caching
 echo "THREAT_INTEL_RATE_LIMIT=100" >> .env
 echo "THREAT_INTEL_CACHE_TTL=3600" >> .env
 
 # Use multiple API keys for higher limits
 echo "VIRUSTOTAL_API_KEYS=key1,key2,key3" >> .env
-\`\`\`
+```
 
 ### Performance Troubleshooting
 
 #### High Memory Usage
 
-\`\`\`bash
+```bash
 # Monitor memory usage by component
 python scripts/monitor_memory.py
 
@@ -1029,24 +1029,24 @@ python scripts/monitor_memory.py
 echo "MAX_WORKERS=4" >> .env
 echo "WORKER_MEMORY_LIMIT=2GB" >> .env
 echo "MODEL_MEMORY_FRACTION=0.5" >> .env
-\`\`\`
+```
 
 #### Slow Processing
 
-\`\`\`bash
+```bash
 # Profile processing bottlenecks
 python scripts/profile_performance.py
 
 # Enable parallel processing
 echo "PARALLEL_ANALYSIS=true" >> .env
 echo "THREAD_POOL_SIZE=8" >> .env
-\`\`\`
+```
 
 ## 🚀 Production Deployment
 
 ### Enhanced Docker Production Deployment
 
-\`\`\`bash
+```bash
 # Build production images with advanced features
 docker-compose -f docker-compose.prod.yml build --build-arg ENABLE_GPU=true
 
@@ -1055,11 +1055,11 @@ docker-compose -f docker-compose.prod.yml up -d
 
 # Scale workers for high throughput
 docker-compose -f docker-compose.prod.yml up -d --scale worker=10 --scale gpu-worker=2
-\`\`\`
+```
 
 ### Kubernetes Deployment with GPU Support
 
-\`\`\`yaml
+```yaml
 # kubernetes/gpu-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -1091,19 +1091,19 @@ spec:
           value: "true"
         - name: CUDA_VISIBLE_DEVICES
           value: "0"
-\`\`\`
+```
 
-\`\`\`bash
+```bash
 # Deploy with GPU support
 kubectl apply -f kubernetes/gpu-deployment.yaml
 
 # Monitor GPU usage
 kubectl top nodes --show-capacity
-\`\`\`
+```
 
 ### Production Monitoring
 
-\`\`\`bash
+```bash
 # Set up Prometheus monitoring
 docker-compose -f monitoring/docker-compose.monitoring.yml up -d
 
@@ -1119,11 +1119,11 @@ docker-compose -f monitoring/docker-compose.monitoring.yml up -d
 # - Model inference failures
 # - API rate limit exceeded
 # - System resource exhaustion
-\`\`\`
+```
 
 ### Security Hardening for Advanced Features
 
-\`\`\`bash
+```bash
 # Run enhanced security setup
 python scripts/setup_production_advanced.py
 
@@ -1134,7 +1134,7 @@ python scripts/setup_production_advanced.py
 # - Audit logging for AI decisions
 # - Privacy-preserving analytics
 # - Compliance reporting
-\`\`\`
+```
 
 ## 📊 Advanced Analytics and Reporting
 
@@ -1149,7 +1149,7 @@ python scripts/setup_production_advanced.py
 
 ### Custom Analytics Queries
 
-\`\`\`sql
+```sql
 -- Top threat indicators by effectiveness
 SELECT 
     threat_type,
@@ -1181,13 +1181,13 @@ SELECT
 FROM model_predictions 
 WHERE created_at >= NOW() - INTERVAL '24 hours'
 GROUP BY model_name;
-\`\`\`
+```
 
 ## 🤝 Contributing to Advanced Features
 
 ### Development Guidelines for AI Features
 
-\`\`\`bash
+```bash
 # Set up development environment for AI features
 pip install -r requirements-ai-dev.txt
 
@@ -1199,11 +1199,11 @@ pytest tests/ai/ -v --cov=src/ml --cov=src/analyzers
 
 # Benchmark new models
 python scripts/benchmark_new_model.py --model-path ./new_model
-\`\`\`
+```
 
 ### Adding New Language Support
 
-\`\`\`python
+```python
 # Example: Adding Italian language support
 # 1. Install language model
 # python -m spacy download it_core_news_sm
@@ -1220,11 +1220,11 @@ SUPPORTED_LANGUAGES['it'] = 'it_core_news_sm'
 
 # 4. Test the implementation
 python tests/test_italian_support.py
-\`\`\`
+```
 
 ### Contributing New Threat Intelligence Sources
 
-\`\`\`python
+```python
 # Example: Adding new threat intelligence source
 class NewThreatIntelSource:
     async def check_ioc(self, ioc: str, ioc_type: str) -> Dict:
@@ -1233,7 +1233,7 @@ class NewThreatIntelSource:
 
 # Register in threat intelligence integrator
 THREAT_INTEL_SOURCES['new_source'] = NewThreatIntelSource()
-\`\`\`
+```
 
 ## 📄 License and Enterprise Support
 
