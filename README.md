@@ -1259,10 +1259,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **🛡️ Built for enterprise email security with cutting-edge AI technology**
 
-**🚀 Achieving 99.7% accuracy with 60% fewer false positives than traditional systems**
-
-For enterprise licensing, professional services, or technical support, please contact your system administrator or visit our enterprise portal.
-
-**Latest Version**: 2.0.0 with Advanced AI Features  
-**Last Updated**: January 2024  
-**Next Major Release**: Q2 2024 (Planned features: Real-time learning, Advanced SIEM integration, Mobile threat detection)
