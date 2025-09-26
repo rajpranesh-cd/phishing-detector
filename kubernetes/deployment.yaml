@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phishing-detector-api
+  labels:
+    app: phishing-detector
+    component: api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: phishing-detector
+      component: api
+  template:
+    metadata:
+      labels:
+        app: phishing-detector
+        component: api
+    spec:
+      containers:
+      - name: api
+        image: phishing-detector:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: phishing-detector-secrets
+              key: database-url
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: phishing-detector-secrets
+              key: redis-url
+        - name: JWT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: phishing-detector-secrets
+              key: jwt-secret
+        - name: GRAPH_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: phishing-detector-secrets
+              key: graph-client-id
+        - name: GRAPH_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: phishing-detector-secrets
+              key: graph-client-secret
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phishing-detector-worker
+  labels:
+    app: phishing-detector
+    component: worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: phishing-detector
+      component: worker
+  template:
+    metadata:
+      labels:
+        app: phishing-detector
+        component: worker
+    spec:
+      containers:
+      - name: worker
+        image: phishing-detector:latest
+        command: ["celery", "worker", "-A", "src.workers.celery_app", "--loglevel=info"]
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: phishing-detector-secrets
+              key: database-url
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: phishing-detector-secrets
+              key: redis-url
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: phishing-detector-service
+spec:
+  selector:
+    app: phishing-detector
+    component: api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: LoadBalancer
