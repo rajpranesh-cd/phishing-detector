@@ -25,7 +25,7 @@ numpy==1.24.4
 
 # Security & Analysis
 yara-python==4.3.1
-cryptography==41.0.8
+cryptography==46.0.5
 python-multipart==0.0.6
 
 # External APIs
